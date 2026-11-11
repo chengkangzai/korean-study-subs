@@ -13,7 +13,7 @@ done
 echo "== python venv (3.12: python-mecab-ko has no wheels for newer pythons)"
 if [ ! -x "$KSUB_PY" ]; then
   uv venv -q -p 3.12 "$KSUB_HOME/venv"
-  VIRTUAL_ENV="$KSUB_HOME/venv" uv pip install -q g2pk2 python-mecab-ko korean-romanizer
+  VIRTUAL_ENV="$KSUB_HOME/venv" uv pip install -q g2pk2 python-mecab-ko korean-romanizer opencc
 fi
 "$KSUB_PY" -c 'import sys; sys.path.insert(0, sys.argv[1]); from build_subs import romanize; print("  romanize test:", romanize("듣고 보니 그런 거 같네"))' "$KSUB_SCRIPTS" 2>&1 | grep -v -i mecab
 

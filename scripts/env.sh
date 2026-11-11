@@ -11,3 +11,5 @@ export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH"
 export PYTHONWARNINGS=ignore
 # extra ssh options for ssh:<host>:<path> sources, e.g. KSUB_SSH_OPTS="-p 2222"
 KSUB_SSH_OPTS="${KSUB_SSH_OPTS:-}"
+# Chinese line on the study track: hant (Traditional, default — matches hanja, best for Sino-Korean) | hans (Simplified)
+export KSUB_ZH="${KSUB_ZH:-hant}"

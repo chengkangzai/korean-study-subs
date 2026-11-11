@@ -8,7 +8,7 @@ description: Make Korean-learning "study subtitles" for a show or video — Kore
 **If `LOCAL.md` exists next to this file, read it first** — it holds the user's hosts, paths, preferences and what's already done.
 
 Default viewer profile (edit the briefs to change it): native Mandarin + English speaker, **beginner** Korean, can't read Hangul yet. Output per episode, next to the video:
-- `<video>.study.ko.ass` — the study track: pronunciation romanization (g2pk2) interleaved **above each Korean line**, Korean, Chinese below; yellow notes top-left (≥5 s, stacked); on-screen signs top-centre (English signs shown as `CAUTION → 주의`).
+- `<video>.study.ko.ass` — the study track: pronunciation romanization (g2pk2) interleaved **above each Korean line**, Korean, Chinese below (Traditional by default — `KSUB_ZH=hant|hans`; Traditional matches hanja); yellow notes top-left (≥5 s, stacked); on-screen signs top-centre (English signs shown as `CAUTION → 주의`).
 - For ASR shows also `.ko.srt / .zh.srt / .en.srt` (dramas keep their embedded official tracks).
 
 Read `references/gotchas.md` before changing anything — every rule there cost a debugging round.

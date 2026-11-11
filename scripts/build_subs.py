@@ -4,6 +4,7 @@
 Usage: build_subs.py cues.json "/path/to/We Bare Bears - S01E26"
 """
 import json
+import os
 import sys
 
 
@@ -83,6 +84,23 @@ def romanize(text):
 
 
 NOTE_MIN_SECS = 5.0
+ZH_VARIANT = os.environ.get("KSUB_ZH", "hant")
+
+
+def to_variant(cues):
+    """Convert Chinese (zh field + Chinese inside notes) to Traditional (Taiwan phrasing) when KSUB_ZH=hant."""
+    if ZH_VARIANT != "hant":
+        return cues
+    try:
+        import opencc
+    except ImportError:
+        return cues
+    cc = opencc.OpenCC("s2twp")
+    for c in cues:
+        for k in ("zh", "note"):
+            if c.get(k):
+                c[k] = cc.convert(c[k])
+    return cues
 
 
 def secs(t):
@@ -139,10 +157,11 @@ def write_ass(cues, path):
 
 
 def main():
-    cues = json.load(open(sys.argv[1], encoding="utf-8"))
+    cues = to_variant(json.load(open(sys.argv[1], encoding="utf-8")))
     base = sys.argv[2]
     for key in ("ko", "zh", "en"):
-        write_srt(cues, f"{base}.{key}.srt", key)
+        tag = "zh-TW" if (key == "zh" and ZH_VARIANT == "hant") else key
+        write_srt(cues, f"{base}.{tag}.srt", key)
     write_ass(cues, f"{base}.study.ko.ass")
     notes = sum(1 for c in cues if c.get("note"))
     unc = sum(1 for c in cues if c.get("uncertain"))
