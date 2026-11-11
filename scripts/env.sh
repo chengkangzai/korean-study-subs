@@ -1,5 +1,6 @@
 # Sourced by every korean-study-subs script.
-KSUB_SKILL="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+# BASH_SOURCE is empty when sourced from zsh; zsh sets $0 to the sourced file
+KSUB_SKILL="$(cd "$(dirname "${BASH_SOURCE[0]:-$0}")/.." && pwd)"
 KSUB_SCRIPTS="$KSUB_SKILL/scripts"
 KSUB_HOME="${KSUB_HOME:-$HOME/.cache/korean-study-subs}"   # venv + compiled tools
 KSUB_BIN="$KSUB_HOME/bin"

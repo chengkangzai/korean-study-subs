@@ -34,3 +34,7 @@
 - Unmatched compilations → `Season 00/… S00E9x`; two-part uploads of one TMDB episode → concat into one file and shift part-2 subs.
 - Sidecars: `<video basename>.ko.srt / .zh.srt / .en.srt / .study.ko.ass` next to the video; refresh the item (`POST /Items/<id>/Refresh`).
 - Netflix WEB-DL MKVs often embed official kor/chi/eng subs → skip ASR entirely; the Korean track may be SDH (`[주제곡]`, `(송화)`) — strip for the study track.
+
+## Shell / transfer
+- Sourcing `scripts/env.sh` from **zsh** leaves `BASH_SOURCE` empty → paths resolve relative to cwd and can silently pick up a stale copy of the scripts. env.sh now falls back to `$0`; still prefer calling the scripts (bash shebang) over sourcing.
+- Tar from macOS to Linux: set `COPYFILE_DISABLE=1` or the archive carries `._*` AppleDouble files that land next to the sidecars (Jellyfin shows them as junk subtitle tracks).

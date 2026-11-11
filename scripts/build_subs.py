@@ -85,6 +85,8 @@ def romanize(text):
 
 NOTE_MIN_SECS = 5.0
 ZH_VARIANT = os.environ.get("KSUB_ZH", "hant")
+if ZH_VARIANT == "hant":
+    SIGN_PREFIX["zh"] = "[畫面] "
 
 
 def to_variant(cues):
