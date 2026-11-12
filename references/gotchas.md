@@ -38,3 +38,8 @@
 ## Shell / transfer
 - Sourcing `scripts/env.sh` from **zsh** leaves `BASH_SOURCE` empty → paths resolve relative to cwd and can silently pick up a stale copy of the scripts. env.sh now falls back to `$0`; still prefer calling the scripts (bash shebang) over sourcing.
 - Tar from macOS to Linux: set `COPYFILE_DISABLE=1` or the archive carries `._*` AppleDouble files that land next to the sidecars (Jellyfin shows them as junk subtitle tracks).
+
+## LLM choice (bake-off 2026-11-12, 100 Hospital Playlist lines)
+- Local ≤12B models (qwen3.5:9b ±thinking, qwen3:8b, EXAONE 3.5 7.8B, Aya Expanse 8B, gemma3/4 12B) all produced teaching errors a beginner can't catch (오빠 explained backwards, 이씨 = 李氏, brief examples copied onto unrelated lines, English-only glosses). Codex had none. Keep Codex for notes; ~30B+ would be the floor for local.
+- Note romanization from any LLM is unreliable → `fix_note_rom()` regenerates every `Korean (latin)` pair with g2pk at build time.
+- Codex under-delivers density (~35–38%) unless the brief gives a numeric target and asks it to count.

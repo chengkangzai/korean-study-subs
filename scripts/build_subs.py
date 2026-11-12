@@ -5,6 +5,7 @@ Usage: build_subs.py cues.json "/path/to/We Bare Bears - S01E26"
 """
 import json
 import os
+import re
 import sys
 
 
@@ -89,8 +90,26 @@ if ZH_VARIANT == "hant":
     SIGN_PREFIX["zh"] = "[畫面] "
 
 
+# "<Korean> (<latin>)" inside a note: the LLM's romanization is often wrong (saekkki, sigeokman),
+# so regenerate it with the same g2pk romanizer as the subtitle lines.
+NOTE_ROM = re.compile(r"(-?[가-힣]+(?:[ ~][가-힣]+)*)(\s*)\(([A-Za-z][A-Za-z' .,?!~-]*)\)")
+
+
+def fix_note_rom(note):
+    def sub(m):
+        ko, sp, old = m.group(1), m.group(2), m.group(3)
+        rom = romanize(ko.lstrip("-").replace("~", " "))
+        if not rom:
+            return m.group(0)
+        return f"{ko}{sp}({'-' if ko.startswith('-') else ''}{rom.rstrip('.?!')})"
+    return NOTE_ROM.sub(sub, note)
+
+
 def to_variant(cues):
-    """Convert Chinese (zh field + Chinese inside notes) to Traditional (Taiwan phrasing) when KSUB_ZH=hant."""
+    """Fix note romanization; convert Chinese (zh field + Chinese inside notes) to Traditional (Taiwan phrasing) when KSUB_ZH=hant."""
+    for c in cues:
+        if c.get("note"):
+            c["note"] = fix_note_rom(c["note"])
     if ZH_VARIANT != "hant":
         return cues
     try:
